@@ -47,3 +47,29 @@ publish {
     dryRun = false
     publications = ['maven']
 }
+
+apply plugin: 'maven-publish'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = GROUP
+            artifactId = ARTIFACT_ID
+            version = VERSION_NAME
+        }
+    }
+    repositories {
+        maven {
+            name = 'GitHub'
+            url = 'https://maven.pkg.github.com/kyori19/ExpandableLayout'
+
+            credentials {
+                username = properties.getProperty('username')
+                password = properties.getProperty('token')
+            }
+        }
+    }
+}
