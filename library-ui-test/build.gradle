@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -11,7 +12,7 @@ android {
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
 
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -25,20 +26,16 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    implementation project(':library')
 
-    compile "com.android.support:appcompat-v7:$SUPPORT_APP_COMPAT_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_APP_COMPAT_VERSION"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
-    compile 'io.reactivex:rxjava:1.1.6'
-    compile 'io.reactivex:rxandroid:1.2.1'
-    androidTestCompile "com.android.support:support-annotations:$SUPPORT_APP_COMPAT_VERSION"
-    androidTestCompile "com.android.support.test:runner:$SUPPORT_TEST_VERSION"
-    androidTestCompile "com.android.support.test:rules:$SUPPORT_TEST_VERSION"
-    androidTestCompile "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
-    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION") {
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    }
+    implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+    implementation "androidx.recyclerview:recyclerview:$ANDROIDX_VERSION"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
+    implementation 'io.reactivex:rxjava:1.1.6'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    androidTestImplementation "androidx.annotation:annotation:$ANDROIDX_VERSION"
+    androidTestImplementation "androidx.test:rules:$ANDROIDX_TEST_VERSION"
+    androidTestImplementation "androidx.test.ext:junit:$ANDROIDX_EXT_VERSION"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$ESPRESSO_VERSION"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$ESPRESSO_VERSION"
 }

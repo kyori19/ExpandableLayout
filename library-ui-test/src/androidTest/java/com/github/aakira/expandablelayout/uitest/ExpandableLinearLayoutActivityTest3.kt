@@ -1,14 +1,14 @@
 package com.github.aakira.expandablelayout.uitest
 
 import android.app.Activity
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.runner.AndroidJUnit4
-import android.test.ActivityInstrumentationTestCase2
 import android.widget.TextView
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
 import com.github.aakira.expandablelayout.ExpandableLinearLayout
 import com.github.aakira.expandablelayout.uitest.utils.ElapsedIdLingResource
 import com.github.aakira.expandablelayout.uitest.utils.equalHeight
@@ -19,7 +19,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.hamcrest.CoreMatchers.`is` as _is
 
 /**
  * test for [com.github.aakira.expandablelayout.ExpandableLinearLayout#initlayout]
@@ -28,30 +27,28 @@ import org.hamcrest.CoreMatchers.`is` as _is
  *
  */
 @RunWith(AndroidJUnit4::class)
-class ExpandableLinearLayoutActivityTest3 : ActivityInstrumentationTestCase2<ExpandableLinearLayoutActivity3>
+class ExpandableLinearLayoutActivityTest3 : ActivityTestRule<ExpandableLinearLayoutActivity3>
 (ExpandableLinearLayoutActivity3::class.java) {
 
     companion object {
-        val DURATION = 300L
+        const val DURATION = 300L
     }
 
     @Before
-    @Throws(Exception::class)
-    public override fun setUp() {
-        super.setUp()
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation())
+    fun setUp() {
+        launchActivity(activityIntent)
     }
 
     @After
-    @Throws(Exception::class)
-    public override fun tearDown() {
-        super.tearDown()
+    fun tearDown() {
+        finishActivity()
     }
 
     @Test
     fun testExpandableLinearLayoutActivity3() {
         val activity = activity
-        val instrumentation = instrumentation
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val idlingRegistry = IdlingRegistry.getInstance()
 
         // check activity
         assertThat<Activity>(activity, notNullValue())
@@ -68,19 +65,19 @@ class ExpandableLinearLayoutActivityTest3 : ActivityInstrumentationTestCase2<Exp
         // open toggle
         instrumentation.runOnMainSync { expandableLayout.toggle() }
         var idlingResource = ElapsedIdLingResource(DURATION)
-        Espresso.registerIdlingResources(idlingResource)
+        idlingRegistry.register(idlingResource)
         onView(withId(R.id.expandableLayout)).check(matches(orMoreHeight(1)))
-        Espresso.unregisterIdlingResources(idlingResource)
+        idlingRegistry.unregister(idlingResource)
 
         // move to first layout
         instrumentation.runOnMainSync { expandableLayout.moveChild(0) }
         idlingResource = ElapsedIdLingResource(DURATION)
-        Espresso.registerIdlingResources(idlingResource)
+        idlingRegistry.register(idlingResource)
         onView(withId(R.id.expandableLayout)).check(matches(equalHeight(
                 child1,
                 margin = marginSmall
         )))
-        Espresso.unregisterIdlingResources(idlingResource)
+        idlingRegistry.unregister(idlingResource)
 
         // change child size
         instrumentation.runOnMainSync {
@@ -89,19 +86,19 @@ class ExpandableLinearLayoutActivityTest3 : ActivityInstrumentationTestCase2<Exp
             expandableLayout.initLayout()
         }
         idlingResource = ElapsedIdLingResource(DURATION)
-        Espresso.registerIdlingResources(idlingResource)
+        idlingRegistry.register(idlingResource)
         onView(withId(R.id.expandableLayout)).check(matches(equalHeight(0)))
-        Espresso.unregisterIdlingResources(idlingResource)
+        idlingRegistry.unregister(idlingResource)
 
         // check init layout
         instrumentation.runOnMainSync { expandableLayout.expand() }
         idlingResource = ElapsedIdLingResource(DURATION)
-        Espresso.registerIdlingResources(idlingResource)
+        idlingRegistry.register(idlingResource)
         onView(withId(R.id.expandableLayout)).check(matches(equalHeight(
                 child1,
                 child2,
                 margin = marginSmall
         )))
-        Espresso.unregisterIdlingResources(idlingResource)
+        idlingRegistry.unregister(idlingResource)
     }
 }

@@ -2,15 +2,17 @@ package jp.android.aakira.sample.expandablelayout.exampleexpanded;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+
+import java.util.Objects;
 
 import jp.android.aakira.sample.expandablelayout.R;
 
@@ -30,11 +32,11 @@ public class ExampleReadMoreActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example_read_more);
 
-        getSupportActionBar().setTitle(ExampleReadMoreActivity.class.getSimpleName());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(ExampleReadMoreActivity.class.getSimpleName());
 
-        mExpandButton = (Button) findViewById(R.id.expandButton);
-        mExpandLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
-        mOverlayText = (TextView) findViewById(R.id.overlayText);
+        mExpandButton = findViewById(R.id.expandButton);
+        mExpandLayout = findViewById(R.id.expandableLayout);
+        mOverlayText = findViewById(R.id.overlayText);
         mExpandButton.setOnClickListener(this);
 
         mGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -42,11 +44,7 @@ public class ExampleReadMoreActivity extends AppCompatActivity implements View.O
             public void onGlobalLayout() {
                 mExpandLayout.move(mOverlayText.getHeight(), 0, null);
 
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    mOverlayText.getViewTreeObserver().removeGlobalOnLayoutListener(mGlobalLayoutListener);
-                } else {
-                    mOverlayText.getViewTreeObserver().removeOnGlobalLayoutListener(mGlobalLayoutListener);
-                }
+                mOverlayText.getViewTreeObserver().removeOnGlobalLayoutListener(mGlobalLayoutListener);
             }
         };
         mOverlayText.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalLayoutListener);
@@ -54,12 +52,10 @@ public class ExampleReadMoreActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(final View v) {
-        switch (v.getId()) {
-            case R.id.expandButton:
-                mExpandLayout.expand();
-                mExpandButton.setVisibility(View.GONE);
-                mOverlayText.setVisibility(View.GONE);
-                break;
+        if (v.getId() == R.id.expandButton) {
+            mExpandLayout.expand();
+            mExpandButton.setVisibility(View.GONE);
+            mOverlayText.setVisibility(View.GONE);
         }
     }
 }

@@ -19,8 +19,8 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    implementation project(':library')
 
-    compile "com.android.support:appcompat-v7:$SUPPORT_APP_COMPAT_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_APP_COMPAT_VERSION"
+    implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+    implementation "androidx.recyclerview:recyclerview:$ANDROIDX_VERSION"
 }

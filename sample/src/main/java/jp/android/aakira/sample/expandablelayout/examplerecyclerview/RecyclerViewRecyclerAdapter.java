@@ -2,14 +2,16 @@ package jp.android.aakira.sample.expandablelayout.examplerecyclerview;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.aakira.expandablelayout.ExpandableLayout;
 import com.github.aakira.expandablelayout.ExpandableLayoutListenerAdapter;
@@ -33,6 +35,7 @@ public class RecyclerViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         this.context = parent.getContext();
@@ -93,9 +96,9 @@ public class RecyclerViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
         public ViewHolder(View v) {
             super(v);
-            textView = (TextView) v.findViewById(R.id.textView);
-            buttonLayout = (RelativeLayout) v.findViewById(R.id.button);
-            expandableLayout = (ExpandableLinearLayout) v.findViewById(R.id.expandableLayout);
+            textView = v.findViewById(R.id.textView);
+            buttonLayout = v.findViewById(R.id.button);
+            expandableLayout = v.findViewById(R.id.expandableLayout);
         }
     }
 

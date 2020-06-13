@@ -3,11 +3,14 @@ package jp.android.aakira.sample.expandablelayout.expandablelayout;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+
+import java.util.Objects;
 
 import jp.android.aakira.sample.expandablelayout.R;
 
@@ -17,11 +20,6 @@ public class ExpandableLayoutActivity extends AppCompatActivity implements View.
         context.startActivity(new Intent(context, ExpandableLayoutActivity.class));
     }
 
-    private Button mExpandButton;
-    private Button mMoveChildButton;
-    private Button mMoveChildButton2;
-    private Button mMoveTopButton;
-    private Button mSetCloseHeightButton;
     private ExpandableRelativeLayout mExpandLayout;
 
     @Override
@@ -29,14 +27,14 @@ public class ExpandableLayoutActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable_layout);
 
-        getSupportActionBar().setTitle(ExpandableLayoutActivity.class.getSimpleName());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(ExpandableLayoutActivity.class.getSimpleName());
 
-        mExpandButton = (Button) findViewById(R.id.expandButton);
-        mMoveChildButton = (Button) findViewById(R.id.moveChildButton);
-        mMoveChildButton2 = (Button) findViewById(R.id.moveChildButton2);
-        mMoveTopButton = (Button) findViewById(R.id.moveTopButton);
-        mSetCloseHeightButton = (Button) findViewById(R.id.setCloseHeightButton);
-        mExpandLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
+        Button mExpandButton = findViewById(R.id.expandButton);
+        Button mMoveChildButton = findViewById(R.id.moveChildButton);
+        Button mMoveChildButton2 = findViewById(R.id.moveChildButton2);
+        Button mMoveTopButton = findViewById(R.id.moveTopButton);
+        Button mSetCloseHeightButton = findViewById(R.id.setCloseHeightButton);
+        mExpandLayout = findViewById(R.id.expandableLayout);
         mExpandButton.setOnClickListener(this);
         mMoveChildButton.setOnClickListener(this);
         mMoveChildButton2.setOnClickListener(this);

@@ -1,10 +1,12 @@
 package jp.android.aakira.sample.expandablelayout.examplesearch;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class ExampleSearchRecyclerAdapter
         this.data = data;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
@@ -46,7 +49,7 @@ public class ExampleSearchRecyclerAdapter
 
         public ViewHolder(View v) {
             super(v);
-            textView = (TextView) v.findViewById(R.id.textView);
+            textView = v.findViewById(R.id.textView);
         }
     }
 }

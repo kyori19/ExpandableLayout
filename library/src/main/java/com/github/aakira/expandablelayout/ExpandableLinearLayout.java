@@ -4,18 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +91,7 @@ public class ExpandableLinearLayout extends LinearLayout implements ExpandableLa
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+        @SuppressLint("CustomViewStyleable")
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.expandableLayout, defStyleAttr, 0);
         duration = a.getInteger(R.styleable.expandableLayout_ael_duration, DEFAULT_DURATION);
@@ -154,7 +157,7 @@ public class ExpandableLinearLayout extends LinearLayout implements ExpandableLa
         if (childNumbers > defaultChildIndex && childNumbers > 0) {
             moveChild(defaultChildIndex, 0, null);
         }
-        if (defaultPosition > 0 && layoutSize >= defaultPosition && layoutSize > 0) {
+        if (defaultPosition > 0 && layoutSize >= defaultPosition) {
             move(defaultPosition, 0, null);
         }
         isArranged = true;
@@ -546,11 +549,7 @@ public class ExpandableLinearLayout extends LinearLayout implements ExpandableLa
         mGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    getViewTreeObserver().removeGlobalOnLayoutListener(mGlobalLayoutListener);
-                } else {
-                    getViewTreeObserver().removeOnGlobalLayoutListener(mGlobalLayoutListener);
-                }
+                getViewTreeObserver().removeOnGlobalLayoutListener(mGlobalLayoutListener);
 
                 listener.onAnimationEnd();
                 if (isExpanded) {

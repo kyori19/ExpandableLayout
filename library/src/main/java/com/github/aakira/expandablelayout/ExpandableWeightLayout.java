@@ -4,18 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class ExpandableWeightLayout extends RelativeLayout implements ExpandableLayout {
 
@@ -54,6 +56,7 @@ public class ExpandableWeightLayout extends RelativeLayout implements Expandable
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+        @SuppressLint("CustomViewStyleable")
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.expandableLayout, defStyleAttr, 0);
         duration = a.getInteger(R.styleable.expandableLayout_ael_duration, DEFAULT_DURATION);
@@ -200,7 +203,7 @@ public class ExpandableWeightLayout extends RelativeLayout implements Expandable
      * {@inheritDoc}
      */
     @Override
-    public void setDuration(@NonNull final int duration) {
+    public void setDuration(final int duration) {
         if (duration < 0) {
             throw new IllegalArgumentException("Animators cannot have negative duration: " +
                     duration);
@@ -366,11 +369,7 @@ public class ExpandableWeightLayout extends RelativeLayout implements Expandable
         mGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    getViewTreeObserver().removeGlobalOnLayoutListener(mGlobalLayoutListener);
-                } else {
-                    getViewTreeObserver().removeOnGlobalLayoutListener(mGlobalLayoutListener);
-                }
+                getViewTreeObserver().removeOnGlobalLayoutListener(mGlobalLayoutListener);
 
                 listener.onAnimationEnd();
                 if (isExpanded) {

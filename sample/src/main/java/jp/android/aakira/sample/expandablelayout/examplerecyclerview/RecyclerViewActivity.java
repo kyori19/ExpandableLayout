@@ -3,14 +3,16 @@ package jp.android.aakira.sample.expandablelayout.examplerecyclerview;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.aakira.expandablelayout.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jp.android.aakira.sample.expandablelayout.R;
 import jp.android.aakira.sample.expandablelayout.util.DividerItemDecoration;
@@ -25,9 +27,9 @@ public class RecyclerViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
-        getSupportActionBar().setTitle(RecyclerViewActivity.class.getSimpleName());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(RecyclerViewActivity.class.getSimpleName());
 
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        final RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

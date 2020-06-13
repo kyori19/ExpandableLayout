@@ -2,12 +2,7 @@ package com.github.aakira.expandablelayout.uitest
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -15,24 +10,22 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.aakira.expandablelayout.ExpandableLayout
 import com.github.aakira.expandablelayout.ExpandableLayoutListenerAdapter
 import com.github.aakira.expandablelayout.ExpandableLinearLayout
 import com.github.aakira.expandablelayout.Utils
+import kotlinx.android.synthetic.main.activity_expandable_recycler_view.*
 import java.util.*
-import kotlin.properties.Delegates
 
 class ExpandableRecyclerViewActivity : AppCompatActivity() {
 
     companion object {
         const val DURATION = 200L
-
-        @JvmStatic fun startActivity(context: Context) {
-            context.startActivity(Intent(context, ExpandableRelativeLayoutActivity3::class.java))
-        }
     }
-
-    private var recyclerView: RecyclerView by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,15 +61,14 @@ class ExpandableRecyclerViewActivity : AppCompatActivity() {
             data.add(ItemModel(" ------------------ $it ------------------",
                     texts[it % texts.size], color.first, color.second))
         }
-        recyclerView = findViewById(R.id.recyclerView) as RecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this);
+        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = RecyclerViewAdapter(data)
     }
 
     data class ItemModel(val title: String, val description: String, var colorId1: Int, val colorId2: Int)
 
     class RecyclerViewAdapter(private val data: List<ItemModel>) : RecyclerView.Adapter<RecyclerViewAdapter.ExpandableViewHolder>() {
-        private var context: Context? = null
+        private lateinit var context: Context
         private val expandState = SparseBooleanArray()
 
         init {
@@ -125,17 +117,10 @@ class ExpandableRecyclerViewActivity : AppCompatActivity() {
         }
 
         class ExpandableViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-            var title: TextView
-            var description: TextView
-            var buttonLayout: RelativeLayout
-            var expandableLayout: ExpandableLinearLayout
-
-            init {
-                title = v.findViewById(R.id.titleText) as TextView
-                description = v.findViewById(R.id.descriptionText) as TextView
-                buttonLayout = v.findViewById(R.id.button) as RelativeLayout
-                expandableLayout = v.findViewById(R.id.expandableLayout) as ExpandableLinearLayout
-            }
+            var title: TextView = v.findViewById(R.id.titleText) as TextView
+            var description: TextView = v.findViewById(R.id.descriptionText) as TextView
+            var buttonLayout: RelativeLayout = v.findViewById(R.id.button) as RelativeLayout
+            var expandableLayout: ExpandableLinearLayout = v.findViewById(R.id.expandableLayout) as ExpandableLinearLayout
         }
 
         fun createRotateAnimator(target: View, from: Float, to: Float): ObjectAnimator {
