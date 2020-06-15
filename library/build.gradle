@@ -53,6 +53,8 @@ apply plugin: 'maven-publish'
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
+File repo = new File(rootDir, "repository")
+
 publishing {
     publications {
         maven(MavenPublication) {
@@ -70,6 +72,11 @@ publishing {
                 username = properties.getProperty('username')
                 password = properties.getProperty('token')
             }
+        }
+
+        maven {
+            name = 'Local'
+            url = "file://${repo.absolutePath}"
         }
     }
 }
