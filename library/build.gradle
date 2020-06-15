@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -22,61 +22,37 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$ANDROIDX_TEST_VERSION"
 }
 
-def getBintrayUserProperty() {
-    return hasProperty('bintrayUser') ? bintrayUser : ""
-}
-
-def getBintrayApiKeyProperty() {
-    return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
-}
-
-publish {
-    userOrg = POM_DEVELOPER_ID
-    repoName = 'maven'
-    groupId = GROUP
-    artifactId = ARTIFACT_ID
-    publishVersion = VERSION_NAME
-    licences = ['Apache-2.0']
-    desc = POM_DESCRIPTION
-    website = POM_URL
-    issueTracker = ISSUE_URL
-    repository = POM_SCM_URL
-    autoPublish = false
-    bintrayUser = bintrayUserProperty
-    bintrayKey = bintrayApiKeyProperty
-    dryRun = false
-    publications = ['maven']
-}
-
-apply plugin: 'maven-publish'
-
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 File repo = new File(rootDir, "repository")
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = GROUP
-            artifactId = ARTIFACT_ID
-            version = VERSION_NAME
-        }
-    }
-    repositories {
-        maven {
-            name = 'GitHub'
-            url = 'https://maven.pkg.github.com/kyori19/ExpandableLayout'
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.release
 
-            credentials {
-                username = properties.getProperty('username')
-                password = properties.getProperty('token')
+                groupId = GROUP
+                artifactId = ARTIFACT_ID
+                version = VERSION_NAME
             }
         }
+        repositories {
+            maven {
+                name = 'GitHub'
+                url = 'https://maven.pkg.github.com/kyori19/ExpandableLayout'
 
-        maven {
-            name = 'Local'
-            url = "file://${repo.absolutePath}"
+                credentials {
+                    username = properties.getProperty('username')
+                    password = properties.getProperty('token')
+                }
+            }
+
+            maven {
+                name = 'Local'
+                url = "file://${repo.absolutePath}"
+            }
         }
     }
 }
