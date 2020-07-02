@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
     androidTestImplementation "androidx.annotation:annotation:$ANDROIDX_VERSION"
     androidTestImplementation "androidx.test.ext:junit:$ANDROIDX_EXT_VERSION"
     androidTestImplementation "androidx.test:rules:$ANDROIDX_TEST_VERSION"

@@ -31,5 +31,8 @@
         <activity
             android:name=".exampleexpanded.ExampleReadMoreActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name=".expandableconstraint.ExpandableConstraintActivity"
+            android:label="@string/app_name" />
     </application>
 </manifest>

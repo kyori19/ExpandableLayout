@@ -22,5 +22,6 @@ dependencies {
     implementation project(':library')
 
     implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
     implementation "androidx.recyclerview:recyclerview:$ANDROIDX_VERSION"
 }

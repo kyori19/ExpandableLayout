@@ -15,6 +15,7 @@ import jp.android.aakira.sample.expandablelayout.R;
 import jp.android.aakira.sample.expandablelayout.exampleexpanded.ExampleReadMoreActivity;
 import jp.android.aakira.sample.expandablelayout.examplerecyclerview.RecyclerViewActivity;
 import jp.android.aakira.sample.expandablelayout.examplesearch.ExampleSearchActivity;
+import jp.android.aakira.sample.expandablelayout.expandableconstraint.ExpandableConstraintActivity;
 import jp.android.aakira.sample.expandablelayout.expandablelayout.ExpandableLayoutActivity;
 import jp.android.aakira.sample.expandablelayout.expandableweight.ExpandableWeightActivity;
 
@@ -55,6 +56,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                         break;
                     case 4:
                         ExampleReadMoreActivity.startActivity(context);
+                        break;
+                    case 5:
+                        ExpandableConstraintActivity.startActivity(context);
                         break;
                 }
             }
