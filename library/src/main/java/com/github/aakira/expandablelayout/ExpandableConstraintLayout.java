@@ -96,7 +96,7 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
         }
 
         if (!defaultExpanded) {
-            setLayoutSize(closePosition);
+            createExpandAnimator(layoutSize, closePosition, 0, interpolator).start();
         }
         if (savedState != null) {
             setLayoutSize(savedState.getSize());
