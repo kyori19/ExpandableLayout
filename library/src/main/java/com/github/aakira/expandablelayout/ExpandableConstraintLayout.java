@@ -96,10 +96,10 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
         }
 
         if (!defaultExpanded) {
-            createExpandAnimator(layoutSize, closePosition, 0, interpolator).start();
+            collapse(0);
         }
         if (savedState != null) {
-            setLayoutSize(savedState.getSize());
+            move(savedState.getSize(), 0);
         }
         isArranged = true;
     }
@@ -168,11 +168,7 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
             return;
         }
 
-        if (duration <= 0) {
-            move(layoutSize, duration, interpolator);
-            return;
-        }
-        createExpandAnimator(getCurrentPosition(), layoutSize, duration, interpolator).start();
+        move(layoutSize, duration, interpolator);
     }
 
     /**
@@ -180,6 +176,10 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
      */
     @Override
     public void collapse() {
+        collapse(duration);
+    }
+
+    private void collapse(final long duration) {
         collapse(duration, interpolator);
     }
 
@@ -195,11 +195,7 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
             return;
         }
 
-        if (duration <= 0) {
-            move(closePosition, duration, interpolator);
-            return;
-        }
-        createExpandAnimator(getCurrentPosition(), closePosition, duration, interpolator).start();
+        move(closePosition, duration, interpolator);
     }
 
     /**
@@ -249,8 +245,7 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
         }
 
         isExpanded = expanded;
-        setLayoutSize(expanded ? layoutSize : closePosition);
-        requestLayout();
+        move(expanded ? layoutSize : closePosition, 0);
     }
 
     /**
@@ -277,6 +272,10 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
     }
 
     public void move(final int position) {
+        move(position, duration);
+    }
+
+    public void move(final int position, final long duration) {
         move(position, duration, interpolator);
     }
 
@@ -285,15 +284,13 @@ public class ExpandableConstraintLayout extends ConstraintLayout implements Expa
             return;
         }
 
-        if (duration <= 0) {
-            isExpanded = position > closePosition;
-            setLayoutSize(position);
-            requestLayout();
-            notifyListeners();
-            return;
+        int currentPosition = getCurrentPosition();
+        if (position == closePosition && currentPosition != position) {
+            layoutSize = currentPosition;
         }
-        createExpandAnimator(getCurrentPosition(), position, duration,
+        createExpandAnimator(currentPosition, position, duration,
                 interpolator == null ? this.interpolator : interpolator).start();
+        notifyListeners();
     }
 
     public int getCurrentPosition() {
